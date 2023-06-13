@@ -6,6 +6,7 @@ import com.task2.blogapp.payload.CommentDto;
 import com.task2.blogapp.services.CommentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,18 +21,21 @@ public class CommentController {
     }
 
     @PostMapping("/users/{userId}/blogs/{blogId}/comments")
+    @PreAuthorize("hasAnyAuthority('ROLE_USER','ROLE_ADMIN')")
     public ResponseEntity<Comment> createComment(@RequestBody Comment comment, @PathVariable Integer blogId, @PathVariable Integer userId) {
         Comment createComment = this.commentService.createComment(comment, blogId, userId);
         return new ResponseEntity<Comment>(createComment, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/comments/{commentId}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ApiResponse deleteComment(@PathVariable Integer commentId) {
         this.commentService.deleteComment(commentId);
         return new ApiResponse("Comment has been deleted successfully", true);
     }
 
     @PutMapping("/comments/{commentId}")
+    @PreAuthorize("hasAnyAuthority('ROLE_USER','ROLE_ADMIN')")
     public ResponseEntity<CommentDto> updateComment(@PathVariable Integer commentId) {
         CommentDto updateComment = this.commentService.updateComment(commentId);
         return new ResponseEntity<CommentDto>(updateComment, HttpStatus.OK);
@@ -39,6 +43,7 @@ public class CommentController {
 
 
     @GetMapping("/blogs/{blogId}/comments")
+    @PreAuthorize("hasAnyAuthority('ROLE_USER','ROLE_ADMIN')")
     public ResponseEntity<List<CommentDto>> getCommentsByBlog(@PathVariable Integer blogId) {
         List<CommentDto> comments = this.commentService.getCommentsByBlog(blogId);
         return new ResponseEntity<List<CommentDto>>(comments, HttpStatus.OK);
@@ -46,6 +51,7 @@ public class CommentController {
     }
 
     @GetMapping("/users/{userId}/comments")
+    @PreAuthorize("hasAnyAuthority('ROLE_USER','ROLE_ADMIN')")
     public ResponseEntity<List<CommentDto>> getCommentsByUser(@PathVariable Integer userId) {
         List<CommentDto> comments = this.commentService.getCommentsByUser(userId);
         return new ResponseEntity<List<CommentDto>>(comments, HttpStatus.OK);
@@ -54,6 +60,7 @@ public class CommentController {
 
 
     @PostMapping("/{userId}/{parentCommentId}/replies")
+    @PreAuthorize("hasAnyAuthority('ROLE_USER','ROLE_ADMIN')")
     public ResponseEntity<CommentDto> createReply(@RequestBody Comment reply, @PathVariable Integer userId, @PathVariable Integer parentCommentId) {
         CommentDto createdReply = commentService.createReply(reply, userId, parentCommentId);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdReply);

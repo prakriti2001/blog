@@ -14,7 +14,6 @@ public interface BlogMapper {
     BlogMapper INSTANCE = Mappers.getMapper(BlogMapper.class);
 
     @Mapping(target = "comments")
-//    @Mapping(target = "user", ignore = true)
     BlogDto toDto(Blog blog);
 
     Blog toEntity(BlogDto dto);

@@ -26,8 +26,6 @@ public interface CommentMapper {
 
     Comment toEntity(CommentDto dto);
 
-//    Set<CommentDto> commentRepliesToDtoSet(Set<Comment> commentReplies);
-
     Set<CommentDto> repliesToRepliesDto(Set<Comment> replies);
 
 

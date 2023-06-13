@@ -13,7 +13,7 @@ public interface UserService {
 
     UserDto getUserById(Integer userId);
 
-    User createUser(User user, Integer addressId);
+    UserDto createUser(User user, Integer addressId);
 
     List<UserDto> getAllUsers();
 

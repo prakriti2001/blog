@@ -1,6 +1,5 @@
 package com.task2.blogapp.entities;
 
-
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

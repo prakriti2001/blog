@@ -26,24 +26,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User createUser(User user, Integer addressId) {
+    public UserDto createUser(User user, Integer addressId) {
         Address address = addressRepo.findById(addressId)
                 .orElseThrow(() -> new ResourceNotFoundException("Address", "Id", addressId));
-
         user.setAddress(address);
-        return userRepo.save(user);
+        User createdUser = userRepo.save(user);
+        return this.userMapper.mapUserToUserDto(createdUser);
     }
 
     @Override
     public UserDto updateUser(Integer userId) {
         User user = userRepo.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "Id", userId));
-        user.setName(user.getName());
+        user.setUserName(user.getUserName());
         user.setEmail(user.getEmail());
         user.setPassword(user.getPassword());
         user.setAbout(user.getAbout());
         User updatedUser = this.userRepo.save(user);
-        return userMapper.mapUserToUserDto(user);
+        return userMapper.mapUserToUserDto(updatedUser);
     }
 
     @Override
@@ -56,8 +56,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDto> getAllUsers() {
         List<User> users = userRepo.findAll();
-        List<UserDto> userDtoList = userMapper.userDTOList(users);
-        return userDtoList;
+        return userMapper.userDTOList(users);
 
     }
 
@@ -77,4 +76,6 @@ public class UserServiceImpl implements UserService {
                 .map(userMapper::mapUserToUserDto)
                 .collect(Collectors.toList());
     }
+
+
 }

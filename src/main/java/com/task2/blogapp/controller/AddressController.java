@@ -25,23 +25,27 @@ public class AddressController {
     }
 
     @PutMapping("/{addressId}")
+//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<AddressDto> updateAddress(@RequestBody AddressDto addressDto, @PathVariable Integer addressId) {
         AddressDto updateAddressDto = this.addressService.updateAddress(addressDto, addressId);
         return ResponseEntity.ok(updateAddressDto);
     }
 
     @DeleteMapping("/{addressId}")
+//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<ApiResponse> deleteAddress(@PathVariable Integer addressId) {
         this.addressService.deleteAddress(addressId);
         return new ResponseEntity<>(new ApiResponse("Address has been deleted successfully", true), HttpStatus.OK);
     }
 
     @GetMapping("/")
+//    @PreAuthorize("hasAnyAuthority('ROLE_USER','ROLE_ADMIN')")
     public ResponseEntity<List<AddressDto>> getAllAddresses() {
         return ResponseEntity.ok(this.addressService.getAllAddresses());
     }
 
     @GetMapping("/{addressId}")
+//    @PreAuthorize("hasAnyAuthority('ROLE_USER','ROLE_ADMIN')")
     public ResponseEntity<AddressDto> getAddressById(@PathVariable Integer addressId) {
         return ResponseEntity.ok(this.addressService.getAddressById(addressId));
 
