@@ -21,7 +21,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
+
 public class SecurityConfig {
+
     private final JwtAuthFilter authFilter;
     private final JwtAuthenticationEntryPoint authenticationEntryPoint;
 
@@ -41,8 +43,9 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/addresses/{addressId}", "/authenticate").permitAll()
-                        .anyRequest().authenticated()
+                                .requestMatchers("/api/addresses/{addressId}", "/authenticate", "/v3/api-docs/**", "/swagger-ui/index.html", "/swagger-ui/**").permitAll()
+//                        .requestMatchers("/v3/api-docs").permitAll()
+                                .anyRequest().authenticated()
                 )
                 .sessionManagement(sessionManagement ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)

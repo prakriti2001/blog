@@ -4,6 +4,8 @@ import com.task2.blogapp.entities.Blog;
 import com.task2.blogapp.payload.ApiResponse;
 import com.task2.blogapp.payload.BlogDto;
 import com.task2.blogapp.services.BlogService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@Tag(name = "Blog")
 @RequestMapping("/api/")
 public class BlogController {
     private final BlogService blogService;
@@ -21,6 +24,24 @@ public class BlogController {
     }
 
 
+    @Operation(
+            description = "Post endpoint for Blogs",
+            summary = "This is a summary for blog post endpoint",
+            responses = {
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                            description = "Success",
+                            responseCode = "200"
+
+                    ),
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                            description = "Unauthorized/Invalid Token",
+                            responseCode = "403"
+
+                    )
+
+            }
+    )
+
     @PostMapping("/users/{userId}/blogs")
     @PreAuthorize("hasAnyAuthority('ROLE_USER','ROLE_ADMIN')")
     public ResponseEntity<Blog> createBlog(@RequestBody Blog blog, @PathVariable Integer userId) {
@@ -29,6 +50,23 @@ public class BlogController {
 
     }
 
+    @Operation(
+            description = "Get endpoint for Blogs",
+            summary = "This is a summary for blog get endpoint",
+            responses = {
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                            description = "Success",
+                            responseCode = "200"
+
+                    ),
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                            description = "Unauthorized/Invalid Token",
+                            responseCode = "403"
+
+                    )
+
+            }
+    )
     @GetMapping("/users/{userId}/blogs")
     @PreAuthorize("hasAnyAuthority('ROLE_USER','ROLE_ADMIN')")
     public ResponseEntity<List<BlogDto>> getBlogsByUser(@PathVariable Integer userId) {
@@ -36,6 +74,24 @@ public class BlogController {
         return new ResponseEntity<List<BlogDto>>(blogs, HttpStatus.OK);
 
     }
+
+    @Operation(
+            description = "Get endpoint for Blogs",
+            summary = "This is a summary for blog get endpoint",
+            responses = {
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                            description = "Success",
+                            responseCode = "200"
+
+                    ),
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                            description = "Unauthorized/Invalid Token",
+                            responseCode = "403"
+
+                    )
+
+            }
+    )
 
     @GetMapping("/blogs")
     @PreAuthorize("hasAnyAuthority('ROLE_USER','ROLE_ADMIN')")
@@ -45,6 +101,23 @@ public class BlogController {
 
     }
 
+    @Operation(
+            description = "Get endpoint for Blogs",
+            summary = "This is a summary for blog get endpoint",
+            responses = {
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                            description = "Success",
+                            responseCode = "200"
+
+                    ),
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                            description = "Unauthorized/Invalid Token",
+                            responseCode = "403"
+
+                    )
+
+            }
+    )
     @GetMapping("/blogs/{blogId}")
     @PreAuthorize("hasAnyAuthority('ROLE_USER','ROLE_ADMIN')")
     public ResponseEntity<BlogDto> getBlogById(@PathVariable Integer blogId) {
@@ -52,6 +125,23 @@ public class BlogController {
         return new ResponseEntity<BlogDto>(blogDto, HttpStatus.OK);
     }
 
+    @Operation(
+            description = "Delete endpoint for Blogs",
+            summary = "This is a summary for blog delete endpoint",
+            responses = {
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                            description = "Success",
+                            responseCode = "200"
+
+                    ),
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                            description = "Unauthorized/Invalid Token",
+                            responseCode = "403"
+
+                    )
+
+            }
+    )
     @DeleteMapping("/blogs/{blogId}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ApiResponse deleteBlog(@PathVariable Integer blogId) {
@@ -60,6 +150,23 @@ public class BlogController {
 
     }
 
+    @Operation(
+            description = "Update endpoint for Blogs",
+            summary = "This is a summary for blog update endpoint",
+            responses = {
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                            description = "Success",
+                            responseCode = "200"
+
+                    ),
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                            description = "Unauthorized/Invalid Token",
+                            responseCode = "403"
+
+                    )
+
+            }
+    )
     @PutMapping("/blogs/{blogId}")
     @PreAuthorize("hasAnyAuthority('ROLE_USER','ROLE_ADMIN')")
     public ResponseEntity<BlogDto> updateBlog(@PathVariable Integer blogId) {
